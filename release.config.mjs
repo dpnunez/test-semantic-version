@@ -3,7 +3,7 @@
  */
 export default {
   branches: [
-    { name: "future-main" },
+    { name: "main" },
     {
       name: "alpha",
       prerelease: "alpha",
