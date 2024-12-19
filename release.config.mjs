@@ -2,11 +2,27 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 export default {
-  branches: [{ name: "main", prerelease: "alpha" }],
-  plugins: [
-    "@semantic-release/commit-analyzer", // Analyze commits
-    "@semantic-release/release-notes-generator", // Generate release notes
-    "@semantic-release/github", // Publish GitHub releases
+  branches: [
+    { name: "main" },
+    {
+      name: "alpha",
+      prerelease: "alpha",
+    },
   ],
-  preset: "angular", // Conventional Commit standard
+  plugins: [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        releaseRules: [
+          { breaking: true, release: "minor" }, // Breaking changes are minor during alpha
+          { revert: true, release: "patch" },
+          { type: "feat", release: "minor" },
+          { type: "fix", release: "patch" },
+          { type: "perf", release: "patch" },
+        ],
+      },
+    ],
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/github",
+  ],
 };
