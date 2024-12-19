@@ -10,9 +10,19 @@ export default {
     },
   ],
   plugins: [
-    "@semantic-release/commit-analyzer", // Analyze commits
-    "@semantic-release/release-notes-generator", // Generate release notes
-    "@semantic-release/github", // Publish GitHub releases
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        releaseRules: [
+          { breaking: true, release: "minor" }, // Breaking changes are minor during alpha
+          { revert: true, release: "patch" },
+          { type: "feat", release: "minor" },
+          { type: "fix", release: "patch" },
+          { type: "perf", release: "patch" },
+        ],
+      },
+    ],
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/github",
   ],
-  preset: "angular", // Conventional Commit standard
 };
